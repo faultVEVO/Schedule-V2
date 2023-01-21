@@ -1,0 +1,40 @@
+First, you need to create a JSON file named schedule.json in the same directory as your 
+Python script, and add some initial data to it. The data should be in the format of a dictionary, with the keys being the days of the week and the values 
+being lists of periods.
+For example:
+
+{
+    "Monday": [
+        {"period": "Period 1", "start_time": "9:00am", "end_time": "10:00am"},
+        {"period": "Period 2", "start_time": "10:00am", "end_time": "11:00am"}
+    ],
+    "Tuesday": [
+        {"period": "Period 3", "start_time": "9:00am", "end_time": "10:00am"}
+    ]
+}
+In your Python script, you can then use the json module to load the schedule data from the schedule.json file when the program starts. 
+In the example, I provided load_schedule function which loads the schedule from file and returns it as a Python dictionary.
+
+import json
+
+def load_schedule():
+    """Load the schedule from a JSON file"""
+    try:
+        with open("schedule.json", "r") as f:
+            return json.load(f)
+    except:
+        return {}
+
+# load schedule from file
+schedule = load_schedule()
+Once the schedule is loaded, you can use the add_period, remove_period, and view_schedule functions as usual. 
+The schedule will be stored in the schedule variable, which is a Python dictionary.
+
+add_period("Monday", "Period 1", "9:00am", "10:00am")
+add_period("Monday", "Period 2", "10:00am", "11:00am")
+view_schedule()
+Finally, when you want to save the schedule, you can use the save_schedule function, which takes a Python dictionary and saves it to the schedule.json file as JSON.
+
+save_schedule(schedule)
+By following these steps, you can use a JSON file to store and retrieve your schedule data, this way, the schedule will be persistent between program runs and you 
+can use the same schedule data in different programs or systems that share the same json file.
