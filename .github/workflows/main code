@@ -1,0 +1,75 @@
+import json
+
+# Schedule Program
+
+def load_schedule():
+    """Load the schedule from a JSON file"""
+    try:
+        with open("schedule.json", "r") as f:
+            return json.load(f)
+    except:
+        return {}
+
+def save_schedule(schedule):
+    """Save the schedule to a JSON file"""
+    with open("schedule.json", "w") as f:
+        json.dump(schedule, f)
+
+def add_period(day, period, start_time, end_time):
+    """Add a period to the schedule"""
+    if day in schedule:
+        schedule[day].append({"period": period, "start_time": start_time, "end_time": end_time})
+    else:
+        schedule[day] = [{"period": period, "start_time": start_time, "end_time": end_time}]
+    save_schedule(schedule)
+
+def remove_period(day, period):
+    """Remove a period from the schedule"""
+    if day in schedule:
+        for i, p in enumerate(schedule[day]):
+            if p["period"] == period:
+                schedule[day].pop(i)
+                break
+        save_schedule(schedule)
+    else:
+        print("Error: Day not found in schedule")
+
+def view_schedule():
+    """Print the current schedule"""
+    for day in schedule:
+        print(day + ":")
+        for period in schedule[day]:
+            print(" - " + period["period"] + " " + period["start_time"] + "-" + period["end_time"])
+
+def search_period(day, period):
+    if day in schedule:
+        for i, p in enumerate(schedule[day]):
+            if p["period"] == period:
+                print("Period: " + period + " " + p["start_time"] + "-" + p["end_time"])
+                break
+    else:
+        print("Error: Day not found in schedule")
+
+def search_day(day):
+    if day in schedule:
+        for i, p in enumerate(schedule[day]):
+            print("Period: " + p["period"] + " " + p["start_time"] + "-" + p["end_time"])
+    else:
+        print("Error: Day not found in schedule")
+
+# load schedule from file
+schedule = load_schedule()
+
+# Example usage
+add_period("Monday", "Period 1", "9:00am", "10:00am")
+add_period("Monday", "Period 2", "10:00am", "11:00am")
+add_period("Tuesday", "Period 3", "9:00am", "10:00am")
+
+view_schedule()
+
+remove_period("Monday", "Period 1")
+
+view_schedule()
+
+search_period("Monday", "Period 2")
+search_day("Tuesday")
